@@ -1,0 +1,129 @@
+{% extends 'master.html' %}
+{% load static %}
+{% block master_content %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<style>
+    .div1{
+        border: 1px solid black;
+        width: 500px;
+        height: 550px;
+        margin-left: 300px;
+        margin-top: 20px;
+    }
+    h1{
+        text-align: center;
+    }
+    table{
+        margin-left: 100px;
+    }
+    td{
+        padding-top: 30px;
+    }
+    button{
+        width: 200px;
+        margin-top: 40px;
+        margin-left: 150px;
+        height: 30px;
+        background-color: rgb(36, 34, 34);
+        color: white;  
+    }
+    .table{
+        margin-top: 50px;
+        width: 800px;
+        margin-left: 200px;
+    }
+    
+</style>
+<body>
+    <div class="div1">
+        <h1>BILL</h1>
+        <form action="" method="POST">
+            {% csrf_token %}
+    <table>
+        
+        <tr >
+            <td><label for="">Supplier Name</label></td>
+            <td><input type="text" name="s_name"></td>
+        </tr>
+       
+        <tr>
+            <td><label for="">Bill Date</label></td>
+            <td><input type="text" value="{{date}}" readonly></td>
+        </tr>
+       
+        <tr>
+            <td><label for="">Bill Number</label></td>
+            <td><input type="number" value="{{billno}}" readonly></td>
+        </tr>
+        <tr>
+            <td><label for="">Item Name</label></td>
+            <td><select name="p_name" id="item_price">
+                <option value="">Choose your Item</option>
+                {% for b in product %}
+                <option id="{{b.item_name}}"  value="{{b.id}}">{{b.item_name}}</option> 
+                {% endfor %}      
+            </select></td>
+        </tr>
+        <tr>
+            <td><label for="">Quantity</label></td>
+            <td><input type="text" name="v_qty"></td>
+        </tr>
+        <tr>
+            <td><label for="">Price</label></td>
+            <td><input type="number" name="v_price" id="price" readonly></td>
+        </tr>
+       
+    </table>
+    <button type="submit">Submit</button>
+</form>
+    </div>
+
+    <div id="b1">
+        <table class="table">
+            <thead class="table shadow">
+                <th scope="col">SL.NO</th>
+                <th scope="col">PRODUCT CODE</th>
+                <th scope="col">PRODUCT NAME</th>
+                <th scope="col">PRICE</th>
+                <th scope="col">QUANTITY</th>
+                <th scope="col">TOTAL AMOUND</th>
+            </thead>
+            
+            <tbody>
+                <td scope="row"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td name="total"></td>
+            </tbody>            
+        </table>
+    </div>
+
+    <script>
+        $("select[name=p_name]").change(function(){
+            item_name=$(this).val()
+            console.log(item_name)
+            $.ajax({
+                url:'/shop/price_list',
+                type: 'POST',
+                data: {
+                    item_name
+                },
+
+                success:function(response){
+                    console.log(response.pr_lst)
+                    $('#price').val(response.pr_lst)
+
+                    
+                },
+            })
+        })
+       
+    </script>
+</body>
+{% endblock %}
+

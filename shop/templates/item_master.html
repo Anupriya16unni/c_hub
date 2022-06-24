@@ -1,0 +1,99 @@
+{% extends 'master.html' %}
+{% load static %}
+{% block master_content %}
+<style>
+    .div1{
+        border: 1px solid black;
+        width: 400px;
+        height: 500px;
+        margin-top: 30px;
+        margin-left: 350px;
+    }
+    h1{
+        text-align: center;
+    }
+    table{
+        margin-left: 30px;
+    }
+    td{
+        padding-top: 40px;
+    }
+    button{
+        width: 200px;
+        margin-top: 40px;
+        margin-left: 100px;
+        height: 30px;
+      
+    }
+    .table{
+        margin-top: 50px;
+        width: 800px;
+        margin-left: 200px;
+    }
+</style>
+<body>
+    <div class="div1">
+        <h1>ITEMS</h1>
+        <form action="" method="POST">
+            {% csrf_token %}
+    <table>
+        <tr >
+            <td><label for="">Product Code</label></td>
+            <td><input type="text" name="i_code"></td>
+        </tr>
+
+        <tr >
+            <td><label for="">Item Name</label></td>
+            <td><input type="text" name="i_name"></td>
+        </tr>
+       
+        <tr>
+            <td><label for="">Price</label></td>
+            <td><input type="text" name="i_price"></td>
+        </tr>
+       
+        <tr>
+            <td><label for="">Available Quantity</label></td>
+            <td><input type="text" name="i_qty"></td>
+        </tr>
+
+        
+        <tr>
+            <td><label for="">Item Status</label></td>
+            <td><select name="i_status" id="">
+                <option value="">Choose your field</option>
+                <option value="In Stock">In Stock</option>
+                <option value="Less Stock">Less Stock</option>
+                <option value="Out of Stock">Out of Stock</option>
+            </select></td>
+        </tr>
+    
+    </table>
+    <button type="submit">Submit</button>
+</form>
+    </div>
+
+    <div>
+        <table class="table">
+            <thead class="table shadow">
+                <th scope="col">SL.NO</th>
+                <th scope="col">PRODUCT CODE</th>
+                <th scope="col">PRODUCT NAME</th>
+                <th scope="col">PRICE</th>
+                <th scope="col">AVAILABLE QUANTITY</th>
+                <th scope="col">ITEM STATUS</th>
+            </thead>
+            
+            <tbody>
+                <td scope="row"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td name="total"></td>
+            </tbody>            
+        </table>
+    </div>
+
+</body>
+{% endblock %}

@@ -1,0 +1,145 @@
+{% extends 'master.html' %}
+{% load static %}
+{% block master_content %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js" integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<style>
+    .div1{
+        border: 1px solid black;
+        width: 550px;
+        height: 600px;
+        margin-left: 300px;
+        margin-top: 20px;
+    }
+    h1{
+        text-align: center;
+    }
+    table{
+        margin-left: 100px;
+    }
+    td{
+        padding-top: 30px;
+    }
+    button{
+        width: 200px;
+        margin-top: 40px;
+        margin-left: 150px;
+        height: 30px;
+        background-color: rgb(36, 34, 34);
+        color: white;  
+    }
+    .table{
+        margin-top: 50px;
+        width: 800px;
+        margin-left: 200px;
+    }
+    
+</style>
+<body>
+    <div class="div1">
+        <h1>INVOICE</h1>
+        <form action="" method="POST">
+            {% csrf_token %}
+    <table>
+        <tr >
+            <td><label for="">Phone Number</label></td>
+            <td><input type="text" name="phn"></td>
+        </tr>
+
+        <tr >
+            <td><label for="">Name</label></td>
+            <td><input type="text" name="s_name"></td>
+        </tr>
+       
+        <tr>
+            <td><label for="">Date</label></td>
+            <td><input type="text" value="{{date}}" readonly></td>
+        </tr>
+       
+        <tr>
+            <td><label for="">Invoice Number</label></td>
+            <td><input type="number" value="{{inv}}" readonly></td>
+        </tr>
+        <tr>
+            <td><label for="">Item Name</label></td>
+            <td><select name="p_name" id="item_price">
+                <option value="">Choose your Item</option>
+                {% for b in product %}
+                <option id="{{b.item_name}}" value="{{b.id}}">{{b.item_name}}</option> 
+                {% endfor %}      
+            </select></td>
+        </tr>
+        <tr>
+            <td><label for="">Quantity</label></td>
+            <td><input type="text" name="v_qty"></td>
+        </tr>
+        <tr>
+            <td><label for="">Price</label></td>
+            <td><input type="number" name="v_price" id="price" readonly></td>
+        </tr>
+       
+    </table>
+    <button type="submit">Submit</button>
+</form>
+    </div>
+
+    <div id="b1">
+        <table class="table">
+            <thead class="table shadow">
+                <th scope="col">SL.NO</th>
+                <th scope="col">PRODUCT CODE</th>
+                <th scope="col">PRODUCT NAME</th>
+                <th scope="col">PRICE</th>
+                <th scope="col">QUANTITY</th>
+                <th scope="col">TOTAL AMOUND</th>
+            </thead>
+            
+            <tbody>
+                <td scope="row"></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tbody>            
+        </table>
+    </div>
+
+</body>
+
+<script>
+    $("select[name=p_name]").change(function(){
+        item_name=$(this).val()
+        console.log(item_name)
+        $.ajax({
+            url:'/customer/invoice_list',
+            type: 'POST',
+            data: {
+                item_name
+            },
+
+            success:function(response){
+                console.log('test2')
+                console.log(response.invo)
+                $('#price').val(response.invo)
+
+                
+            },
+        })
+    })
+   
+</script>
+
+{% endblock %}
+
